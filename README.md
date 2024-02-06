@@ -26,7 +26,7 @@ First, you need to replace this `secret_key_gmail`
 
 HOW TO GET A SECRET KEY FOR YOUR MAIL:
 
-1. Go to [Gmail]("https://mail.google.com/")
+1. Go to [Gmail](https://mail.google.com/)
 2. Then click to manage your account.
 3. `Security > Two-Step-Verification > Enter Your Password > Password Apps > Enter Your Password > Enter your application name`
 4. Copy code(16 letters) remove spaces and insert in `secret_key_gmail` AND DON'T SHARE!!!!
@@ -47,7 +47,7 @@ Second, you need to change __VisaFormParams__ `(first name, last name, sex, pass
 
 Because if the program finds dates, those parameters will be inserted into the application.
 
-Thirdly, insert  __[VisaGlobal]("https://visa.vfsglobal.com/blr/ru/pol/login")__ login and password (DON'T SHARE)
+Thirdly, insert  __[VisaGlobal](https://visa.vfsglobal.com/blr/ru/pol/login)__ login and password (DON'T SHARE)
 
 And finally, you need to change __Check dates params(one city)__:
 
@@ -127,5 +127,5 @@ Next, you should choose which file you want to convert:
 - Scripts(`all_cities.py`, `onecity.py` ) repeat after every 10 minutes.
 ## Contact
 
-[Telegram]("https://t.me/kravchenski")<br/>
-[Discord]("https://discordapp.com/users/893778320410419280")
+[Telegram](https://t.me/kravchenski)<br/>
+[Discord](https://discordapp.com/users/893778320410419280)
