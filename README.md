@@ -45,7 +45,7 @@ Second, you need to change __VisaFormParams__ `(first name, last name, sex, pass
 
 ***
 
-Because if the program finds dates, those parameters will be inserted into the application.
+If the program finds dates, those parameters will be inserted into the application.
 
 Thirdly, insert  __[VisaGlobal](https://visa.vfsglobal.com/blr/ru/pol/login)__ login and password (DON'T SHARE)
 
