@@ -2,7 +2,7 @@ import time
 
 from DrissionPage._functions.keys import Keys
 from config import first_name, last_name, sex, passport_number, passport_year, country_code, phone_number, \
-    your_email, email_login, password_login, country, visa_subcategory, visa_category
+    your_email, email_login, password_login, nationality, visa_subcategory, visa_category,birth_day
 
 
 def auth(page):
@@ -45,8 +45,8 @@ def check_dates(page, city):
     page.scroll.down(600)
     time.sleep(2)
     page.ele('xpath://*[@id="mat-select-value-7"]/span').click()
-    page.ele(f'xpath://span[contains(text(),"{country}")]').click()
+    page.ele(f'xpath://span[contains(text(),"{nationality}")]').click()
     time.sleep(2)
     page.ele(
         'xpath:/html/body/app-root/div/div/app-eligibility-criteria/section/form/mat-card[1]/form/div[4]/div[2]/input').input(
-        '06/01/2007')
+        birth_day)
