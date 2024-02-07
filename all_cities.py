@@ -10,7 +10,7 @@ from form import auth, check_dates
 from send_mail import send_mail
 
 # Array of cities
-cities = ['Grodno', 'Minsk', 'Gomel', 'Baranovichi', 'Lida', 'Mogilev']
+cities = ['Grodno', 'Minsk', 'Gomel', 'Baranovichi', 'Lida', 'Mogilev', 'Brest', 'Pinsk']
 
 while True:
     page = ChromiumPage()
