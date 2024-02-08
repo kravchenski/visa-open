@@ -94,6 +94,12 @@ Run the script via command that checks dates in all cities:
 
     python all_cities.py
 
+## MSI Page
+Program open new tab and insert params 🔽
+
+Identification Number (example): `111111AAAA1111`
+
+This your personal number in your passport(DON'T SHARE IT!!!)
 
 ## Convert to EXE
 Run command:
