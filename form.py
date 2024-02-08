@@ -31,6 +31,7 @@ def fill_form(page):
     time.sleep(1)
     page.ele('xpath://*[@id="mat-input-6"]').input(phone_number)
     page.ele('xpath://*[@id="mat-input-7"]').input(your_email)
+    page.ele('xpath:/html/body/app-root/div/div/app-applicant-details/section/mat-card[2]/app-dynamic-form/div/div/app-dynamic-control/div/div/div[2]/button').click()
 
 
 def check_dates(page, city):
