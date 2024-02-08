@@ -8,7 +8,7 @@ I used Python 3.10 and DrissionPage with version 4.0.4.4.
 
 The following command will pull and install the latest commit from this repository, along with its Python dependencies:
 
-    pip install git+https://github.com/kravchenski/visa-open.git 
+    git clone https://github.com/kravchenski/visa-open.git 
 
 To update the package to the latest version of this repository, please run:
 
