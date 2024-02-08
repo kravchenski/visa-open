@@ -22,3 +22,6 @@ visa_category = 'YOUR_VISA_CATEGORY'
 visa_subcategory = 'YOUR_VISA_SUBCATEGORY'
 nationality = 'YOUR_COUNTRY'
 birth_day = 'YOUR_BIRTH_DAY'
+
+# Verification by phone
+identification_number = 'YOUR_IDENTIFICATION_NUMBER'
