@@ -20,7 +20,7 @@ while True:
         tag_info = page.ele('xpath://div[contains(@class,"border-info mb-0 ng-star-inserted")]').text
         if tag_info != 'Приносим извинения, в настоящий момент нет доступных слотов для записи. Пожалуйста, попробуйте позже':
             print('Send mail....')
-            # send_mail(secret_key_gmail, city)
+            send_mail(secret_key_gmail, city)
             print('Done')
             time.sleep(2)
             print('Play Audio...')
