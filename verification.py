@@ -1,7 +1,3 @@
-import time
-
-from DrissionPage._pages.chromium_page import ChromiumPage
-
 from config import identification_number, country_code, phone_number
 
 def verification_by_phone_erip(page):
