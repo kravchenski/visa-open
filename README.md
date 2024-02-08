@@ -10,9 +10,9 @@ The following command will pull and install the latest commit from this reposito
 
     git clone https://github.com/kravchenski/visa-open.git 
 
-To update the package to the latest version of this repository, please run:
+To update the package to the latest version of this repository, please go to my repo and run:
 
-    pip install pip install --upgrade --no-deps --force-reinstall git+https://github.com/kravchenski/visa-open.git 
+    git pull    
 
 Then, install requirements:
 
