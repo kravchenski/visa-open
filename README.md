@@ -81,8 +81,7 @@ And finally, you need to change __Check dates params(one city)__:
 4. Your nationality:
 
     For example _(write UPPERCASE and in English!!!)_: `BELARUS`, `UKRAINE`, `RUSSIA`,`POLAND` and etc.
-5. Your Birthday: 
-    For example(write day/month/year): `26/02/2000`
+5. Your Birthday example (day/month/year): `26/02/2000`
 
 
 ## Usage
