@@ -2,7 +2,7 @@ import time
 
 from DrissionPage._functions.keys import Keys
 from config import first_name, last_name, sex, passport_number, passport_year, country_code, phone_number, \
-    your_email, email_login, password_login, nationality, visa_subcategory, visa_category,birth_day
+    your_email, email_login, password_login, nationality, visa_subcategory, visa_category,birth_day,identification_number
 
 
 def auth(page):
@@ -19,18 +19,19 @@ def auth(page):
 
 def fill_form(page):
     # form to details
-    page.ele('xpath://*[@id="mat-input-2"]').input(first_name)
-    page.ele('xpath://*[@id="mat-input-3"]').input(last_name)
+    page.ele('xpath://*[@id="mat-input-2"]').input(identification_number)
+    page.ele('xpath://*[@id="mat-input-4"]').input(first_name)
+    page.ele('xpath://*[@id="mat-input-5"]').input(last_name)
     time.sleep(1)
     page.ele('xpath://*[@id="mat-select-value-9"]/span').click()
     page.ele(f'xpath://span[contains(text(),"{sex}")]').click()
-    page.ele('xpath://*[@id="mat-input-4"]').input(passport_number)
+    page.ele('xpath://*[@id="mat-input-6"]').input(passport_number)
     time.sleep(1)
     page.ele('xpath://*[@id="passportExpirtyDate"]').input(passport_year)
-    page.ele('xpath://*[@id="mat-input-5"]').input(country_code)
+    page.ele('xpath://*[@id="mat-input-7"]').input(country_code)
     time.sleep(1)
-    page.ele('xpath://*[@id="mat-input-6"]').input(phone_number)
-    page.ele('xpath://*[@id="mat-input-7"]').input(your_email)
+    page.ele('xpath://*[@id="mat-input-8"]').input(phone_number)
+    page.ele('xpath://*[@id="mat-input-9"]').input(email_login)
     page.ele('xpath:/html/body/app-root/div/div/app-applicant-details/section/mat-card[2]/app-dynamic-form/div/div/app-dynamic-control/div/div/div[2]/button').click()
 
 
