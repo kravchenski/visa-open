@@ -1,8 +1,9 @@
 import time
 
 from DrissionPage._functions.keys import Keys
-from config import first_name, last_name, sex, passport_number, passport_year, country_code, phone_number, \
-    your_email, email_login, password_login, nationality, visa_subcategory, visa_category,birth_day,identification_number
+from config import first_name, last_name, sex, passport_number, passport_year, country_code, \
+phone_number, your_email, email_login, password_login, nationality, visa_subcategory, \
+visa_subcategory_change, visa_category, birth_day, identification_number
 
 
 def auth(page):
@@ -42,13 +43,20 @@ def check_dates(page, city):
     page.ele('xpath://*[@id="mat-select-value-5"]/span').click()
     page.ele(f'xpath://span[contains(text(), "{visa_category}")]').click()
     time.sleep(7)
-    page.ele('xpath://*[@id="mat-select-value-3"]/span').click()
-    page.ele(f'xpath://span[contains(text(),"{visa_subcategory}")]').click()
     page.scroll.down(600)
-    time.sleep(2)
     page.ele('xpath://*[@id="mat-select-value-7"]/span').click()
     page.ele(f'xpath://span[contains(text(),"{nationality}")]').click()
     time.sleep(2)
     page.ele(
         'xpath:/html/body/app-root/div/div/app-eligibility-criteria/section/form/mat-card[1]/form/div[4]/div[2]/input').input(
         birth_day)
+
+def selectPostal(page):
+    page.ele('xpath://*[@id="mat-select-value-3"]/span').click()
+    page.ele(f'xpath://span[contains(text(),"{visa_subcategory_change}")]').click()
+    time.sleep(2)
+
+def selectOther(page):
+    page.ele('xpath://*[@id="mat-select-value-3"]/span').click()
+    page.ele(f'xpath://span[contains(text(),"{visa_subcategory}")]').click()
+    time.sleep(2)
