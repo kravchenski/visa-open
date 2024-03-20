@@ -14,7 +14,6 @@ from verification import verification_by_phone_erip
 while True:
     page = ChromiumPage()
     try:
-        print(datetime.datetime.now())
         auth(page)
         time.sleep(7)
         check_dates(page, city)
@@ -36,10 +35,9 @@ while True:
                 verification_by_phone_erip(page)
                 break
             else:
-                print(datetime.datetime.now())
-                print(tag_info)
+                print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), tag_info, sep=' ')
                 time.sleep(300)
                 selectPostal(page)
     except ElementNotFoundError:
-        print('Something went wrong(')
+        print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), ' Something went wrong(')
         time.sleep(300)
