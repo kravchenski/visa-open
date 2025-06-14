@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visa-open"
+version = "0.1.0"
+description = "A Python application that checks for specific available visa appointment dates every 10 minutes. When matching dates are found, they are logged or saved immediately for further processing or alerting."
+authors = [
+    { name = "kravchenski", email = "krasavamaks64@gmail.com" }
+]
+requires-python = ">=3.7"
+dependencies = [
+  "drissionpage>=4.0.4.4",
+  "requests==2.31.0",
+  "google-auth>=1.35.0",
+  "google-auth-oauthlib>=0.4.6",
+  "google-api-python-client>=1.12.8",
+  "beautifulsoup4>=4.12.2",
+  "lxml==5.1.0",
+  "selenium>=4.20.0",
+  "pytz>=2023.3",
+  "altgraph==0.17.4",
+  "audioplayer==0.6",
+  "auto-py-to-exe==2.42.0",
+  "bottle==0.12.25",
+  "bottle-websocket==0.2.9",
+  "certifi==2024.2.2",
+  "cffi==1.16.0",
+  "charset-normalizer==3.3.2",
+  "click==8.1.7",
+  "colorama==0.4.6",
+  "cssselect==1.2.0",
+  "DataRecorder==3.4.12",
+  "DownloadKit==2.0.0",
+  "Eel==0.16.0",
+  "et-xmlfile==1.1.0",
+  "filelock==3.13.1",
+  "future==0.18.3",
+  "gevent==23.9.1",
+  "gevent-websocket==0.10.1",
+  "greenlet==3.0.3",
+  "idna==3.6",
+  "openpyxl==3.1.2",
+  "packaging==23.2",
+  "pefile==2023.2.7",
+  "psutil==5.9.8",
+  "pycparser==2.21",
+  "pyinstaller==6.3.0",
+  "pyinstaller-hooks-contrib==2024.0",
+  "pyparsing==3.1.1",
+  "pywin32-ctypes==0.2.2",
+  "requests-file==2.0.0",
+  "secure-smtplib==0.1.1",
+  "tldextract==5.1.1",
+  "urllib3==2.2.0",
+  "websocket-client==1.7.0",
+  "whichcraft==0.6.1",
+  "zope.event==5.0",
+  "zope.interface==6.1"
+]
