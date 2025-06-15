@@ -1,4 +1,4 @@
-.env
+config/.env
 my_cred_file.json
 token.json
 config.py
