@@ -34,6 +34,7 @@ def check_dates_for_all_visa_types_for_one_city(page):
                 page.ele(visa_subcategory_dropdown).click()
             page.ele(f'xpath:/html/body/div[4]/div[2]/div/div/mat-option[{j + 1}]/span').click()
             is_loader_hide(page)
+            page.ele(birth_date_input).clear()
             page.ele(birth_date_input).input(os.environ['birth_day'])
             dates_container = page.ele(
                 'xpath:/html/body/app-root/div/main/div/app-eligibility-criteria/section/form/mat-card[1]/form/div[5]/div').text
