@@ -1,11 +1,9 @@
-import time
+from playwright.async_api import TimeoutError as PlaywrightTimeout
 
 
-def is_loader_hide(page, css_selector='.ngx-overlay', timeout=1):
-    while True:
-        loader = page.ele(f'css:{css_selector}', timeout=timeout)
-        if loader is not None:
-            class_attr = loader.attr('class')
-            if class_attr and class_attr.strip() == 'ngx-overlay':
-                break
-        time.sleep(0.2)
+async def is_loader_hide(page, css_selector='.ngx-overlay', timeout=1000):
+    locator = page.locator(f'css={css_selector}')
+    try:
+        await locator.wait_for(state='hidden', timeout=timeout)
+    except Exception:
+        pass

@@ -1,2 +1,1 @@
-from utils.check_elements.is_cloudflare_bypass import is_cloudflare_bypass
 from utils.check_elements.is_loader_hide import is_loader_hide

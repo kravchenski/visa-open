@@ -1,5 +1,8 @@
-config/.env
+__pycache__/
+.env
+.idea/
+visa_open.egg-info/
 my_cred_file.json
 token.json
 config.py
-check_dates_for_all_visa_types_for_all_city.py
+.venv/
