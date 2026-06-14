@@ -9,6 +9,35 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+async def clear_browser_state(page):
+    context = page.context
+    await context.clear_cookies()
+    await context.clear_permissions()
+    await context.route('**/*', lambda route: route.continue_())
+    await context.add_init_script("""(() => {
+        try {
+            localStorage.clear();
+            sessionStorage.clear();
+        } catch (error) {}
+
+        try {
+            if ('caches' in window) {
+                caches.keys().then((cacheNames) => {
+                    cacheNames.forEach((name) => caches.delete(name));
+                });
+            }
+        } catch (error) {}
+
+        try {
+            if (navigator.serviceWorker) {
+                navigator.serviceWorker.getRegistrations().then((registrations) => {
+                    registrations.forEach((registration) => registration.unregister());
+                });
+            }
+        } catch (error) {}
+    })();""")
+
+
 async def main():
     async with AsyncCamoufox(
         geoip=True,
@@ -17,6 +46,7 @@ async def main():
         config={'forceScopeAccess': True},
     ) as browser:
         page = await browser.new_page()
+        await clear_browser_state(page)
 
         while True:
             try:

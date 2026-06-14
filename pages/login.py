@@ -123,8 +123,8 @@ async def login_to_vfs(page, solve_captcha):
         print(f"Logged in! URL: {page.url}")
 
         await page.locator(
-            'xpath=/html/body/app-root/div/main/div/app-dashboard/section[1]/div/div[1]/div[2]/button'
-        ).press('Enter')
+            'xpath=/html/body/app-root/div/main/div/app-dashboard/section[1]/div/div[2]/div/button/span[2]'
+        ).click()
 
         await is_loader_hide(page)
         return True
