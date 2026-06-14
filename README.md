@@ -101,9 +101,9 @@ birth_day=06/01/2000        # DD/MM/YYYY
 ### Appointment Parameters
 
 ```env
-city=Grodno
-visa_category=National Visa D
-visa_subcategory=Other D-visa
+appointment_center=Poland Visa Application Center-Grodno
+appointment_category=National D Visa
+appointment_subcategory=D- Karta Polaka
 ```
 
 ### Environment Variables Reference
@@ -112,9 +112,9 @@ visa_subcategory=Other D-visa
 |----------|-------------|---------|
 | `email_login` | VFS account email | `user@email.com` |
 | `password_login` | VFS account password | `pass123` |
-| `city` | Target city | `Grodno` |
-| `visa_category` | Visa type | `National Visa D` |
-| `visa_subcategory` | Visa subcategory | `Other D-visa` |
+| `appointment_center` | Appointment center option text | `Poland Visa Application Center-Grodno` |
+| `appointment_category` | Appointment category option text | `National D Visa` |
+| `appointment_subcategory` | Appointment subcategory option text | `D- Karta Polaka` |
 | `nationality` | Your nationality (UPPERCASE) | `POLAND` |
 | `birth_day` | Date of birth (DD/MM/YYYY) | `06/01/2000` |
 
