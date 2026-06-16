@@ -62,7 +62,7 @@ pip install .
 cp .env.example .env
 ```
 
-2. Edit `.env` with your VFS Global login and personal details (see [Configuration](#configuration))
+2. Edit `.env` with your VFS Global login and appointment parameters (see [Configuration](#configuration))
 
 3. Run:
 
@@ -83,21 +83,6 @@ password_login=your_password
 
 Get these from [VFS Global](https://visa.vfsglobal.com/blr/ru/pol/login).
 
-### Personal Details (for auto form fill)
-
-```env
-first_name=John
-last_name=Doe
-sex=Male                    # Male | Female
-nationality=POLAND          # UPPERCASE, English
-passport_number=AB123456
-passport_year=25/12/2025
-country_code=375
-phone_number=295045955
-your_email=your@email.com
-birth_day=06/01/2000        # DD/MM/YYYY
-```
-
 ### Appointment Parameters
 
 ```env
@@ -115,16 +100,6 @@ appointment_subcategory=D- Karta Polaka
 | `appointment_center` | Appointment center option text | `Poland Visa Application Center-Grodno` |
 | `appointment_category` | Appointment category option text | `National D Visa` |
 | `appointment_subcategory` | Appointment subcategory option text | `D- Karta Polaka` |
-| `first_name` | First name | `John` |
-| `last_name` | Last name | `Doe` |
-| `sex` | Gender (Male / Female) | `Male` |
-| `nationality` | Nationality (UPPERCASE, English) | `POLAND` |
-| `birth_day` | Date of birth (DD/MM/YYYY) | `06/01/2000` |
-| `passport_number` | Passport number | `KH12313` |
-| `passport_year` | Passport expiry (DD/MM/YYYY) | `25/02/2025` |
-| `country_code` | Phone country code | `375` |
-| `phone_number` | Phone number | `295045955` |
-| `your_email` | Contact email for application | `you@email.com` |
 
 ## How It Works
 
