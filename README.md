@@ -152,13 +152,14 @@ appointment_subcategory=D- Karta Polaka
 
 ```
 visa-open/
-├── main.py              # Entry point — CloakBrowser persistent context loop
+├── main.py              # Entry point — browser loop with retry logic
+├── cloudflare.py        # Cloudflare Interstitial + Turnstile bypass
+├── session.py           # Session expiry detection and recovery
+├── utils.py             # Shared helpers (screenshot, delays, loader wait)
 ├── pages/
-│   ├── login.py         # VFS login + Cloudflare bypass
-│   ├── check_dates_...  # Date checking for all visa types
-├── utils/
-│   └── check_elements/
-│       └── is_loader_hide.py  # Async loader state checker
+│   ├── login.py         # VFS Global login flow
+│   ├── check_dates.py   # Visa appointment date checker
+│   └── fill_form.py     # Application form auto-fill
 ├── .env.example         # Configuration template
 ├── pyproject.toml       # Dependencies & build config
 └── README.md

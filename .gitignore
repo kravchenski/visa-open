@@ -1,9 +1,7 @@
 __pycache__/
 .env
 .idea/
-visa_open.egg-info/
-my_cred_file.json
-token.json
-config.py
 .venv/
 .browser-profile/
+screenshots/
+*.egg-info/
