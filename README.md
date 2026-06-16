@@ -10,7 +10,7 @@
 
 <p align="center">
   <b>Automated visa appointment checker with Cloudflare bypass</b><br>
-  <sub>Monitors VFS Global for available dates and auto-fills applications</sub>
+  <sub>Monitors VFS Global for available dates</sub>
 </p>
 
 <p align="center">
@@ -29,7 +29,6 @@
 
 - **Cloudflare Bypass** — Automatically solves Cloudflare Interstitial and Turnstile challenges using [CloakBrowser](https://github.com/CloakHQ/CloakBrowser) stealth browser
 - **Date Monitoring** — Checks all visa types and subcategories for a selected city every 10 minutes
-- **Auto Form Fill** — When an available date is found, automatically fills the application form
 - **Async Architecture** — Built on Playwright async API for reliable, non-blocking automation
 - **GeoIP Integration** — Matches timezone, locale, and geolocation to proxy exit node for stealth
 - **Fingerprint Randomization** — Unique browser fingerprint per session via BrowserForge
@@ -132,11 +131,6 @@ appointment_subcategory=D- Karta Polaka
 │  │      → Print results                                    │  │
 │  └────────────────────────┬───────────────────────────────┘  │
 │                           ▼                                  │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │                    fill_form()                          │  │
-│  │  If dates found → auto-fill application form            │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                             │
 │                    ↻ Repeat every 60s                        │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -162,7 +156,6 @@ visa-open/
 ├── pages/
 │   ├── login.py         # VFS login + Cloudflare bypass
 │   ├── check_dates_...  # Date checking for all visa types
-│   └── fill_form.py     # Auto form filler
 ├── utils/
 │   └── check_elements/
 │       └── is_loader_hide.py  # Async loader state checker
