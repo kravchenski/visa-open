@@ -95,12 +95,15 @@ async def _ensure_login_page(page):
 
 
 async def _fill(page, email, pwd):
-    e = page.locator('#email')
-    await e.wait_for(state='visible', timeout=60000)
-    await e.click(); await e.fill(''); await e.type(email, delay=50)
-    p = page.locator('#password')
-    await p.wait_for(state='visible', timeout=60000)
-    await p.click(); await p.fill(''); await p.type(pwd, delay=50)
+    for sel, val in (('#email', email), ('#password', pwd)):
+        inp = page.locator(sel)
+        await inp.wait_for(state='visible', timeout=60000)
+        await inp.click()
+        await inp.fill('')
+        await inp.type(val, delay=50)
+        # Angular Material reactive forms need native input/change events
+        # to update FormControl value — .type() alone is not enough here.
+        await inp.evaluate('el => { el.dispatchEvent(new Event("input", {bubbles: true})); el.dispatchEvent(new Event("change", {bubbles: true})); }')
 
 
 async def _submit(page):
