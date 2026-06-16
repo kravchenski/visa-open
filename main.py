@@ -41,17 +41,17 @@ async def main():
             print("Login OK, checking dates...")
 
             if not await check_dates(page):
-                print("Dates check failed or session expired, waiting 90s...")
-                await asyncio.sleep(90)
+                print("Dates check failed or session expired, waiting 60s...")
+                await asyncio.sleep(60)
                 continue
 
             if not await fill_form(page):
                 if await is_expired(page):
-                    print("Session expired during form fill, waiting 90s...")
-                    await asyncio.sleep(90)
+                    print("Session expired during form fill, waiting 60s...")
+                    await asyncio.sleep(60)
                     continue
                 print("Fill form failed, retrying...")
-                await asyncio.sleep(30)
+                await asyncio.sleep(20)
                 continue
 
             print("ALL DONE!")
