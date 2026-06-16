@@ -11,8 +11,7 @@ authors = [
 ]
 requires-python = ">=3.11,<3.13"
 dependencies = [
-  "camoufox[geoip]>=0.4.11",
-  "camoufox-captcha>=0.1.3",
+  "cloakbrowser[geoip]>=0.3.31",
   "playwright==1.51.0",
   "python-dotenv",
 ]

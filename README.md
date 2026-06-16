@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Camoufox-Anti--Detect-F4A460?style=for-the-badge" alt="Camoufox">
+  <img src="https://img.shields.io/badge/CloakBrowser-Stealth-6B4C9A?style=for-the-badge" alt="CloakBrowser">
   <img src="https://img.shields.io/badge/Cloudflare-Bypass-F48120?style=for-the-badge" alt="Cloudflare">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/github/stars/kravchenski/visa-open?style=for-the-badge&color=yellow" alt="Stars">
@@ -27,7 +27,7 @@
 
 ## Features
 
-- **Cloudflare Bypass** — Automatically solves Cloudflare Interstitial and Turnstile challenges using [Camoufox](https://camoufox.com/) anti-detect browser + [camoufox-captcha](https://github.com/user/camoufox-captcha)
+- **Cloudflare Bypass** — Automatically solves Cloudflare Interstitial and Turnstile challenges using [CloakBrowser](https://github.com/CloakHQ/CloakBrowser) stealth browser
 - **Date Monitoring** — Checks all visa types and subcategories for a selected city every 10 minutes
 - **Auto Form Fill** — When an available date is found, automatically fills the application form
 - **Async Architecture** — Built on Playwright async API for reliable, non-blocking automation
@@ -132,11 +132,11 @@ appointment_subcategory=D- Karta Polaka
 ┌─────────────────────────────────────────────────────────────┐
 │                        main.py                              │
 │                                                             │
-│  ┌──────────┐    ┌──────────────┐    ┌───────────────────┐  │
-│  │ Camoufox  │───▶│ solve_captcha│───▶│ Cloudflare passed │  │
-│  │ (Firefox) │    │ (interstitial│    │                   │  │
-│  └──────────┘    │  + turnstile)│    └────────┬──────────┘  │
-│                  └──────────────┘             │              │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────┐  │
+│  │ CloakBrowser │─▶│ solve_captcha│─▶│ Cloudflare passed │  │
+│  │ (Stealth)    │  │ (interstitial│  │                   │  │
+│  └──────────────┘  │  + turnstile)│  └────────┬──────────┘  │
+│                    └──────────────┘           │              │
 │                                               ▼              │
 │  ┌────────────────────────────────────────────────────────┐  │
 │  │                    login_to_vfs()                       │  │
@@ -183,7 +183,7 @@ appointment_subcategory=D- Karta Polaka
 
 ```
 visa-open/
-├── main.py              # Entry point — AsyncCamoufox browser loop
+├── main.py              # Entry point — CloakBrowser persistent context loop
 ├── pages/
 │   ├── login.py         # VFS login + Cloudflare bypass
 │   ├── check_dates_...  # Date checking for all visa types
@@ -200,10 +200,8 @@ visa-open/
 
 | Component | Technology |
 |-----------|-----------|
-| Browser | [Camoufox](https://camoufox.com/) (Firefox anti-detect) |
+| Browser | [CloakBrowser](https://github.com/CloakHQ/CloakBrowser) (stealth Chromium) |
 | Automation | [Playwright](https://playwright.dev/python/) (async API) |
-| Captcha Solver | [camoufox-captcha](https://github.com/user/camoufox-captcha) |
-| Fingerprinting | [BrowserForge](https://github.com/nickthecook/browserforge) |
 | Config | [python-dotenv](https://github.com/theskumar/python-dotenv) |
 
 ## Contributing
