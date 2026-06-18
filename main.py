@@ -55,9 +55,7 @@ async def main():
                 continue
 
             print("ALL DONE!")
-            await screenshot(page, 'all_done')
-            await human_delay(3, 5)
-            await screenshot(page, 'all_done_scrolled')
+            await screenshot(page, 'all_done_final')
             break
         except Exception as e:
             fails += 1

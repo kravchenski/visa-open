@@ -86,6 +86,36 @@ async def fill_form(page):
         await continue_btn.click(force=True)
 
     await human_delay(3, 5)
+
+    print("Confirming same passport modal...")
+    modal_btn = page.locator('xpath=/html/body/div[3]/div[2]/div/mat-dialog-container/div/div/app-same-passport-modal/div/mat-dialog-actions/div/div/div/button')
+    try:
+        await modal_btn.wait_for(state='visible', timeout=10000)
+        await modal_btn.click()
+    except Exception:
+        try:
+            await modal_btn.click(force=True)
+        except Exception:
+            print("Modal button not found, skipping")
+    await human_delay(3, 5)
+
+    print("Clicking instructions confirm...")
+    instructions_btn = page.locator('xpath=/html/body/app-root/div/main/div/app-fvinstructions/div/div[3]/div[2]/button')
+    try:
+        await instructions_btn.wait_for(state='visible', timeout=10000)
+        await instructions_btn.click()
+    except Exception:
+        try:
+            await instructions_btn.click(force=True)
+        except Exception:
+            print("Instructions button not found, skipping")
+    await human_delay(3, 5)
+
+    print("Bypassing Azure Face SDK verification...")
+    await _bypass_face_verification(page, PASSPORT_IMAGE)
+
+    await human_delay(5, 8)
+
     print(f"fill_form complete, url={page.url}")
     return True
 
@@ -117,3 +147,88 @@ async def _upload_passport(page, image_path):
         await human_delay(3, 5)
 
     print(f"Passport uploaded: {image_path}")
+
+
+async def _bypass_face_verification(page, image_path):
+    try:
+        await page.wait_for_load_state(state='domcontentloaded', timeout=30000)
+    except Exception:
+        pass
+
+    await human_delay(2, 4)
+
+    file_input = page.locator('input[type="file"]')
+    if await file_input.count() > 0:
+        print(f"Found {await file_input.count()} file input(s), uploading passport...")
+        await file_input.first.set_input_files(image_path)
+        await human_delay(3, 5)
+        print("Passport uploaded to face verification input")
+        return
+
+    print("No file input found, trying to find hidden input via JS...")
+    found = await page.evaluate(f"""() => {{
+        const inputs = document.querySelectorAll('input[type="file"]');
+        if (inputs.length > 0) {{
+            return true;
+        }}
+        const allInputs = document.querySelectorAll('input');
+        for (const inp of allInputs) {{
+            if (inp.type === 'file' || inp.accept && inp.accept.includes('image')) {{
+                inp.style.display = 'block';
+                inp.style.opacity = '1';
+                inp.style.position = 'static';
+                inp.style.width = '100px';
+                inp.style.height = '100px';
+                return true;
+            }}
+        }}
+        return false;
+    }}""")
+
+    if found:
+        file_input = page.locator('input[type="file"]')
+        if await file_input.count() > 0:
+            await file_input.first.set_input_files(image_path)
+            await human_delay(3, 5)
+            print("Passport uploaded via hidden input")
+            return
+
+    print("Trying camera bypass via JS...")
+    await page.evaluate("""() => {
+        const video = document.querySelector('video');
+        if (video) {
+            const stream = video.srcObject;
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        }
+    }""")
+
+    print("Trying file chooser approach on any button...")
+    try:
+        async with page.expect_file_chooser(timeout=5000) as fc_info:
+            buttons = page.locator('button')
+            count = await buttons.count()
+            for i in range(count):
+                btn = buttons.nth(i)
+                text = await btn.text_content() or ''
+                if any(w in text.lower() for w in ['upload', 'photo', 'camera', 'browse', 'file', 'choose']):
+                    print(f"Clicking button: {text.strip()}")
+                    await btn.click()
+                    break
+            else:
+                for i in range(count):
+                    btn = buttons.nth(i)
+                    try:
+                        box = await btn.bounding_box()
+                        if box and box['width'] > 30:
+                            await btn.click()
+                            break
+                    except Exception:
+                        pass
+        file_chooser = await fc_info.value
+        await file_chooser.set_files(image_path)
+        await human_delay(3, 5)
+        print("Passport uploaded via file chooser")
+    except Exception:
+        print("Could not find file chooser, face verification may need manual intervention")
