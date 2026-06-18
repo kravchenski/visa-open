@@ -9,7 +9,7 @@ from pages.login import login
 from pages.check_dates import check_dates
 from pages.fill_form import fill_form
 from session import is_expired, handle_expired
-from utils import screenshot
+from utils import screenshot, human_delay
 
 load_dotenv(override=True)
 
@@ -55,6 +55,9 @@ async def main():
                 continue
 
             print("ALL DONE!")
+            await screenshot(page, 'all_done')
+            await human_delay(3, 5)
+            await screenshot(page, 'all_done_scrolled')
             break
         except Exception as e:
             fails += 1

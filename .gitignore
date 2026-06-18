@@ -5,3 +5,4 @@ __pycache__/
 .browser-profile/
 screenshots/
 *.egg-info/
+images/
