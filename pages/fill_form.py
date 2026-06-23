@@ -10,6 +10,7 @@ _PASSPORT_UPLOAD_BTN = '/html/body/app-root/div/main/div/app-applicant-details/s
 _CONTINUE_BTN = '/html/body/app-root/div/main/div/app-applicant-details/section/mat-card[2]/app-dynamic-form/div/div/app-dynamic-control/div/div/div[2]/button'
 
 PASSPORT_IMAGE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images', '161719708023-1080752971.jpg')
+FACE_VIDEO = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'images', 'John.mp4')
 
 
 async def fill_form(page):
@@ -112,7 +113,7 @@ async def fill_form(page):
     await human_delay(3, 5)
 
     print("Bypassing Azure Face SDK verification...")
-    await _bypass_face_verification(page, PASSPORT_IMAGE)
+    await _bypass_face_verification(page, FACE_VIDEO)
 
     await human_delay(5, 8)
 
@@ -149,7 +150,7 @@ async def _upload_passport(page, image_path):
     print(f"Passport uploaded: {image_path}")
 
 
-async def _bypass_face_verification(page, image_path):
+async def _bypass_face_verification(page, file_path):
     try:
         await page.wait_for_load_state(state='domcontentloaded', timeout=30000)
     except Exception:
@@ -157,52 +158,31 @@ async def _bypass_face_verification(page, image_path):
 
     await human_delay(2, 4)
 
-    file_input = page.locator('input[type="file"]')
-    if await file_input.count() > 0:
-        print(f"Found {await file_input.count()} file input(s), uploading passport...")
-        await file_input.first.set_input_files(image_path)
+    # --- Camera stream path (fake device = file_path, set at browser launch) ---
+    # Grant camera/mic permission to the current origin so getUserMedia auto-accepts.
+    try:
+        await page.context.grant_permissions(['camera', 'microphone'], origin=page.url)
+        print("Camera permission granted for face verification")
+    except Exception as e:
+        print(f"Permission grant skipped: {e}")
+
+    # Click any button that starts the camera / liveness check.
+    await _click_face_buttons(page, ['start', 'enable', 'begin', 'camera', 'ready', 'continue', 'next', 'allow'])
+
+    # Wait for the live <video> feed (the fake stream plays file_path).
+    if await _wait_for_camera_stream(page):
+        print("Camera stream is playing (fake video feed)")
+        await human_delay(3, 6)
+        # Click verify / submit / continue to finish the liveness check.
+        await _click_face_buttons(page, ['verify', 'submit', 'continue', 'next', 'confirm', 'done', 'finish'])
         await human_delay(3, 5)
-        print("Passport uploaded to face verification input")
+        print("Face verification done via camera stream")
         return
 
-    print("No file input found, trying to find hidden input via JS...")
-    found = await page.evaluate(f"""() => {{
-        const inputs = document.querySelectorAll('input[type="file"]');
-        if (inputs.length > 0) {{
-            return true;
-        }}
-        const allInputs = document.querySelectorAll('input');
-        for (const inp of allInputs) {{
-            if (inp.type === 'file' || inp.accept && inp.accept.includes('image')) {{
-                inp.style.display = 'block';
-                inp.style.opacity = '1';
-                inp.style.position = 'static';
-                inp.style.width = '100px';
-                inp.style.height = '100px';
-                return true;
-            }}
-        }}
-        return false;
-    }}""")
-
-    if found:
-        file_input = page.locator('input[type="file"]')
-        if await file_input.count() > 0:
-            await file_input.first.set_input_files(image_path)
-            await human_delay(3, 5)
-            print("Passport uploaded via hidden input")
-            return
-
-    print("Trying camera bypass via JS...")
-    await page.evaluate("""() => {
-        const video = document.querySelector('video');
-        if (video) {
-            const stream = video.srcObject;
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-        }
-    }""")
+    # --- Fallback: page uses a file <input> instead of a live camera ---
+    print("Camera stream not detected, falling back to file upload...")
+    if await _upload_file_input(page, file_path):
+        return
 
     print("Trying file chooser approach on any button...")
     try:
@@ -212,7 +192,7 @@ async def _bypass_face_verification(page, image_path):
             for i in range(count):
                 btn = buttons.nth(i)
                 text = await btn.text_content() or ''
-                if any(w in text.lower() for w in ['upload', 'photo', 'camera', 'browse', 'file', 'choose']):
+                if any(w in text.lower() for w in ['upload', 'photo', 'camera', 'browse', 'file', 'choose', 'video', 'record']):
                     print(f"Clicking button: {text.strip()}")
                     await btn.click()
                     break
@@ -227,8 +207,85 @@ async def _bypass_face_verification(page, image_path):
                     except Exception:
                         pass
         file_chooser = await fc_info.value
-        await file_chooser.set_files(image_path)
+        await file_chooser.set_files(file_path)
         await human_delay(3, 5)
-        print("Passport uploaded via file chooser")
+        print("Video uploaded via file chooser")
     except Exception:
         print("Could not find file chooser, face verification may need manual intervention")
+
+
+async def _click_face_buttons(page, keywords):
+    try:
+        buttons = page.locator('button')
+        count = await buttons.count()
+        for i in range(count):
+            btn = buttons.nth(i)
+            try:
+                text = (await btn.text_content() or '').strip().lower()
+            except Exception:
+                continue
+            if any(k in text for k in keywords):
+                print(f"Face: clicking '{text}'")
+                try:
+                    await btn.click(timeout=3000)
+                except Exception:
+                    await btn.click(force=True)
+                await human_delay(1, 2)
+    except Exception:
+        pass
+
+
+async def _wait_for_camera_stream(page, timeout_ms=15000):
+    video = page.locator('video')
+    try:
+        await video.first.wait_for(state='visible', timeout=timeout_ms)
+    except Exception:
+        return False
+    try:
+        playing = await page.evaluate("""() => {
+            const v = document.querySelector('video');
+            if (!v) return false;
+            return v.readyState >= 2 && !v.paused && v.currentTime > 0;
+        }""")
+        return bool(playing)
+    except Exception:
+        return False
+
+
+async def _upload_file_input(page, file_path):
+    file_input = page.locator('input[type="file"]')
+    if await file_input.count() > 0:
+        print(f"Found {await file_input.count()} file input(s), uploading video...")
+        await file_input.first.set_input_files(file_path)
+        await human_delay(3, 5)
+        print("Video uploaded to face verification input")
+        return True
+
+    print("No file input found, trying to find hidden input via JS...")
+    found = await page.evaluate(f"""() => {{
+        const inputs = document.querySelectorAll('input[type="file"]');
+        if (inputs.length > 0) {{
+            return true;
+        }}
+        const allInputs = document.querySelectorAll('input');
+        for (const inp of allInputs) {{
+            if (inp.type === 'file' || (inp.accept && (inp.accept.includes('image') || inp.accept.includes('video')))) {{
+                inp.style.display = 'block';
+                inp.style.opacity = '1';
+                inp.style.position = 'static';
+                inp.style.width = '100px';
+                inp.style.height = '100px';
+                return true;
+            }}
+        }}
+        return false;
+    }}""")
+
+    if found:
+        file_input = page.locator('input[type="file"]')
+        if await file_input.count() > 0:
+            await file_input.first.set_input_files(file_path)
+            await human_delay(3, 5)
+            print("Video uploaded via hidden input")
+            return True
+    return False

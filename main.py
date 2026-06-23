@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from pages.login import login
 from pages.check_dates import check_dates
-from pages.fill_form import fill_form
+from pages.fill_form import fill_form, FACE_VIDEO
 from session import is_expired, handle_expired
 from utils import screenshot, human_delay
 
@@ -26,6 +26,11 @@ async def main():
                 USER_DATA_DIR,
                 geoip=True,
                 humanize=True,
+                args=[
+                    '--use-fake-ui-for-media-stream',
+                    '--use-fake-device-for-media-stream',
+                    f'--use-file-for-fake-video-capture={FACE_VIDEO}',
+                ],
             )
             page = await context.new_page()
             page.on('pageerror', lambda err: None)
